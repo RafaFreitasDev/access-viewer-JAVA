@@ -2,11 +2,17 @@ package br.com.rafael.accessviewerjava.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 //nome da tabela
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
     @Id                      //GenerationType.(tem várias opções)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,8 +29,9 @@ public class User {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 6, nullable = false)
-    private String type;
+    private UserType type;
 
     @Column(columnDefinition = "DECIMAL")
     @ColumnDefault("0")
@@ -33,13 +40,15 @@ public class User {
     public User() {
     }
 
-    public User(String name, String cpf, String email, String password, String type) {
+    public User(String name, String cpf, String email, String password, UserType type) {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.password = password;
         this.type = type;
     }
+
+
 
     public long getId() {
         return id;
@@ -73,19 +82,53 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.type==UserType.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
+                                              new SimpleGrantedAuthority("ROLE_SELLER"),
+                                              new SimpleGrantedAuthority("ROLE_COMMON"));
+        else if(this.type==UserType.COMMON) return List.of(new SimpleGrantedAuthority("ROLE_COMMON"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_SELLER"));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 
