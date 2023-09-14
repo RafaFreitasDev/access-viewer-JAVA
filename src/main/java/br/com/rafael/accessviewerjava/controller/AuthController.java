@@ -1,8 +1,12 @@
 package br.com.rafael.accessviewerjava.controller;
 
 import br.com.rafael.accessviewerjava.dto.AuthDto;
+import br.com.rafael.accessviewerjava.dto.LoginResponseDto;
+import br.com.rafael.accessviewerjava.infra.security.TokenService;
+import br.com.rafael.accessviewerjava.model.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,11 +23,20 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthDto loginData) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid AuthDto loginData) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginData.getEmail(), loginData.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        // Criar um objeto LoginResponseDto para retornar o token
+        LoginResponseDto loginResponseDto = new LoginResponseDto();
+        loginResponseDto.setToken(token);
+
+        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
 }
