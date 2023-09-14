@@ -5,6 +5,7 @@ import br.com.rafael.accessviewerjava.dto.CreateTransactionDto;
 import br.com.rafael.accessviewerjava.exception.AppException;
 import br.com.rafael.accessviewerjava.model.Transaction;
 import br.com.rafael.accessviewerjava.model.User;
+import br.com.rafael.accessviewerjava.model.UserType;
 import br.com.rafael.accessviewerjava.repository.TransactionRepository;
 import br.com.rafael.accessviewerjava.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class TransactionService {
 
         //usuario vendedo(SELLER) não pode fazer transferencia
         //variavel == "algumaCoisa", o java pede para substituir por Object.equal(variavel, "algumaCoisa")
-        if (Objects.equals(foundPayer.getType(), "SELLER")) {
+        if (Objects.equals(foundPayer.getType(), UserType.SELLER)) {
             throw new AppException("invalidUserType", HttpStatus.FORBIDDEN);
         }
 
