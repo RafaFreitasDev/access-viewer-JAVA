@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,7 +55,7 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return  new ResponseEntity<>(returnObject, ex.getStatusCode());
     }
 
-    //exceção padão do java (RuntimeException)
+//    exceção padão do java (RuntimeException)
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleInternal(final RuntimeException ex) {
 

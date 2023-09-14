@@ -1,9 +1,7 @@
 package br.com.rafael.accessviewerjava.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import br.com.rafael.accessviewerjava.model.UserType;
+import jakarta.validation.constraints.*;
 
 public class UserDto {
     //não precisamos nem do balande nem do id
@@ -24,9 +22,8 @@ public class UserDto {
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    @NotEmpty(message = "Email cannot be empty")
-    @Pattern(regexp = "(COMMON|SELLER)", message = "User type must be COMMON or SELLER")
-    private String type;
+    @NotNull(message = "Type cannot be null, must be COMMON, SELLER or ADMIN")
+    private UserType type;
 
     //fazer Alt+insert para pegar os gets e sets
     public String getName() {
@@ -61,11 +58,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 }
