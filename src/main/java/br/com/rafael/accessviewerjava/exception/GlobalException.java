@@ -61,7 +61,7 @@ public class GlobalException extends ResponseEntityExceptionHandler {
 
         final HashMap<String, String> returnObject = new HashMap<>();
         returnObject.put("message", "Internal Server Error");
-
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println(ex.getMessage());
 
         return  new ResponseEntity<>(returnObject, HttpStatus.INTERNAL_SERVER_ERROR);
