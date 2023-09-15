@@ -59,6 +59,9 @@ public class TransactionService {
         //criando dado na tabela Transaction
         final Transaction newTransaction = new Transaction(foundPayer, foundPayee, transactionValue);
 
+        userRepository.save(foundPayer);
+        userRepository.save(foundPayee);
+
         return transactionRepository.save(newTransaction);
 
     }
