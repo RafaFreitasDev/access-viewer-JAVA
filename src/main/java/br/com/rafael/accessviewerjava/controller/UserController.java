@@ -51,6 +51,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@Valid @RequestBody final UserDto userData, @PathVariable final String id) {
+        userData.setPassword(new BCryptPasswordEncoder().encode(userData.getPassword()));
 
         final User updatedUser = userService.updateUser(userData, Long.parseLong(id));
 
