@@ -2,7 +2,7 @@ package br.com.rafael.accessviewerjava.service;
 
 
 import br.com.rafael.accessviewerjava.dto.CreateTransactionDto;
-import br.com.rafael.accessviewerjava.exception.AppException;
+import br.com.rafael.accessviewerjava.exceptions.AppException;
 import br.com.rafael.accessviewerjava.model.Transaction;
 import br.com.rafael.accessviewerjava.model.User;
 import br.com.rafael.accessviewerjava.model.UserType;

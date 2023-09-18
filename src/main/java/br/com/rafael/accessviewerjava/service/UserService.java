@@ -2,7 +2,7 @@ package br.com.rafael.accessviewerjava.service;
 
 import br.com.rafael.accessviewerjava.dto.CreateDepositDto;
 import br.com.rafael.accessviewerjava.dto.UserDto;
-import br.com.rafael.accessviewerjava.exception.AppException;
+import br.com.rafael.accessviewerjava.exceptions.AppException;
 import br.com.rafael.accessviewerjava.model.User;
 import br.com.rafael.accessviewerjava.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class UserService {
     }
     public User createUser (final UserDto userData){
 
-        checkEmailAndCpf(userData);
+//        checkEmailAndCpf(userData);
 
         final User newUser = new User(
                                     userData.getName(),
